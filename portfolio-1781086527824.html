@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthony ? Web Developer for Businesses</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--accent:#00e5ff;
+--accent2:#00b8d4;
+--accent3:#80deea;
+--bg:#050508;
+--bg2:#0a0a10;
+--glass:rgba(255,255,255,0.04);
+--glass-border:rgba(255,255,255,0.08);
+--text:#e8eaf0;
+--muted:#8892a4;
+}
+html{scroll-behavior:smooth}
+body{
+background:var(--bg);
+color:var(--text);
+font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;
+overflow-x:hidden;
+cursor:none;
+}
+body::before{
+content:'';
+position:fixed;
+inset:0;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+background-size:200px 200px;
+pointer-events:none;
+z-index:9998;
+opacity:0.5;
+}
+#cursor-dot{
+position:fixed;width:6px;height:6px;background:var(--accent);
+border-radius:50%;pointer-events:none;z-index:99999;
+transform:translate(-50%,-50%);transition:transform 0.05s;
+}
+#cursor-ring{
+position:fixed;width:32px;height:32px;border:1.5px solid rgba(0,229,255,0.5);
+border-radius:50%;pointer-events:none;z-index:99999;
+transform:translate(-50%,-50%);transition:transform 0.12s,width 0.2s,height 0.2s;
+}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+#orb1{width:500px;height:500px;background:rgba(0,229,255,0.07);top:-100px;left:-100px;animation:orbFloat1 12s ease-in-out infinite;}
+#orb2{width:400px;height:400px;background:rgba(0,184,212,0.05);bottom:-100px;right:-100px;animation:orbFloat2 15s ease-in-out infinite;}
+#orb3{width:300px;height:300px;background:rgba(128,222,234,0.04);top:50%;left:50%;animation:orbFloat3 18s ease-in-out infinite;}
+@keyframes orbFloat1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+@keyframes orbFloat2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,-60px)}}
+@keyframes orbFloat3{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-45%,-55%)}}
+nav{
+position:fixed;top:0;left:0;right:0;z-index:1000;
+padding:20px 48px;
+display:flex;align-items:center;justify-content:space-between;
+transition:background 0.3s,backdrop-filter 0.3s,border-bottom 0.3s;
+}
+nav.scrolled{
+background:rgba(5,5,8,0.85);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border-bottom:1px solid var(--glass-border);
+}
+.nav-logo{
+font-size:1.3rem;font-weight:700;letter-spacing:-0.5px;
+background:linear-gradient(135deg,var(--accent),var(--accent3));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.nav-links{display:flex;align-items:center;gap:36px;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.9rem;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+color:#050508!important;font-weight:700;
+padding:10px 24px;border-radius:100px;font-size:0.85rem;
+transition:transform 0.2s,box-shadow 0.2s!important;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 24px rgba(0,229,255,0.4)!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px;}
+.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:0.3s;}
+.mobile-menu{
+display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+background:rgba(5,5,8,0.97);backdrop-filter:blur(20px);
+z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:32px;
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text);text-decoration:none;font-size:1.4rem;font-weight:600;transition:color 0.2s;}
+.mobile-menu a:hover{color:var(--accent);}
+.mobile-close{position:absolute;top:24px;right:24px;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:none;}
+section{position:relative;z-index:1;}
+#hero{
+min-height:100vh;display:flex;align-items:center;justify-content:center;
+padding:120px 48px 80px;text-align:center;overflow:hidden;
+}
+.hero-bg{
+position:absolute;inset:0;
+background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,229,255,0.08) 0%,transparent 70%);
+}
+.hero-badge{
+display:inline-flex;align-items:center;gap:8px;
+background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2);
+border-radius:100px;padding:8px 18px;font-size:0.8rem;color:var(--accent);
+margin-bottom:28px;letter-spacing:0.5px;
+}
+.pulse-dot{
+width:8px;height:8px;background:var(--accent);border-radius:50%;
+animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,229,255,0.7)}50%{box-shadow:0 0 0 8px rgba(0,229,255,0)}}
+.hero-headline{
+font-size:clamp(2.5rem,6vw,5rem);
+font-weight:800;line-height:1.1;letter-spacing:-2px;
+margin-bottom:24px;
+}
+.grad-text{
+background:linear-gradient(135deg,#fff 0%,var(--accent3) 40%,var(--accent) 100%);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{color:var(--muted);font-size:1.1rem;max-width:560px;margin:0 auto 40px;line-height:1.7;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:72px;}
+.btn-primary{
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+color:#050508;font-weight:700;padding:14px 32px;border-radius:100px;
+text-decoration:none;font-size:0.95rem;
+transition:transform 0.2s,box-shadow 0.2s;
+border:none;cursor:none;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 32px rgba(0,229,255,0.5);}
+.btn-ghost{
+background:transparent;color:var(--text);font-weight:600;padding:14px 32px;border-radius:100px;
+text-decoration:none;font-size:0.95rem;border:1px solid var(--glass-border);
+transition:border-color 0.2s,background 0.2s;
+}
+.btn-ghost:hover{border-color:var(--accent);background:rgba(0,229,255,0.05);}
+.stats-row{
+display:flex;gap:48px;justify-content:center;flex-wrap:wrap;
+padding:32px 48px;
+background:var(--glass);border:1px solid var(--glass-border);
+border-radius:20px;backdrop-filter:blur(20px);
+max-width:700px;margin:0 auto;
+}
+.stat-item{text-align:center;}
+.stat-num{
+font-size:2rem;font-weight:800;
+background:linear-gradient(135deg,var(--accent),var(--accent3));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-label{color:var(--muted);font-size:0.8rem;margin-top:4px;letter-spacing:0.5px;}
+#about{padding:100px 48px;}
+.section-label{
+font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;
+color:var(--accent);margin-bottom:16px;
+}
+.about-grid{
+display:grid;grid-template-columns:1fr 1fr;gap:60px;
+max-width:1100px;margin:0 auto;align-items:center;
+}
+.about-stats{display:flex;flex-direction:column;gap:24px;}
+.about-stat-card{
+background:var(--glass);border:1px solid var(--glass-border);
+border-radius:16px;padding:28px;backdrop-filter:blur(20px);
+transition:border-color 0.3s,box-shadow 0.3s;
+}
+.about-stat-card:hover{border-color:rgba(0,229,255,0.3);box-shadow:0 0 30px rgba(0,229,255,0.08);}
+.about-stat-num{
+font-size:2.5rem;font-weight:800;
+background:linear-gradient(135deg,var(--accent),var(--accent3));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.about-stat-desc{color:var(--muted);font-size:0.9rem;margin-top:6px;}
+.about-story{
+background:var(--glass);border:1px solid var(--glass-border);
+border-radius:24px;padding:40px;backdrop-filter:blur(20px);
+transition:border-color 0.3s,box-shadow 0.3s;
+}
+.about-story:hover{border-color:rgba(0,229,255,0.2);box-shadow:0 0 40px rgba(0,229,255,0.06);}
+.about-story h2{font-size:2rem;font-weight:800;margin-bottom:20px;letter-spacing:-0.5px;}
+.about-story p{color:var(--muted);line-height:1.8;margin-bottom:16px;font-size:0.95rem;}
+#services{padding:100px 48px;background:linear-gradient(180deg,transparent,rgba(0,229,255,0.02),transparent);}
+.section-title{font-size:2.5rem;font-weight:800;letter-spacing:-1px;margin-bottom:16px;}
+.section-sub{color:var(--muted);max-width:500px;margin:0 auto 56px;font-size:0.95rem;line-height:1.7;}
+.services-grid{
+display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;
+max-width:1100px;margin:0 auto;
+}
+.service-card{
+background:var(--glass);border:1px solid var(--glass-border);
+border-radius:24px;padding:36px;backdrop-filter:blur(20px);
+transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+}
+.service-card:hover{
+transform:translateY(-6px);
+border-color:rgba(0,229,255,0.3);
+box-shadow:0 20px 60px rgba(0,229,255,0.1);
+}
+.service-icon{
+width:52px;height:52px;border-radius:14px;
+background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);
+display:flex;align-items:center;justify-content:center;
+font-size:1.4rem;margin-bottom:24px;
+}
+.service-title{font-size:1.2rem;font-weight:700;margin-bottom:12px;}
+.service-desc{color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:20px;}
+.outcome-tag{
+display:inline-block;
+background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2);
+color:var(--accent);font-size:0.75rem;padding:6px 14px;border-radius:100px;
+letter-spacing:0.3px;
+}
+#whyme{padding:100px 48px;}
+.whyme-grid{
+display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+max-width:1100px;margin:0 auto;
+}
+.whyme-card{
+background:var(--glass);border:1px solid var(--glass-border);
+border-radius:24px;padding:36px;backdrop-filter:blur(20px);
+text-align:center;
+transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+}
+.whyme-card:hover{
+transform:translateY(-4px);
+border-color:rgba(0,229,255,0.3);
+box-shadow:0 16px 48px rgba(0,229,255,0.08);
+}
+.whyme-icon{
+font-size:2rem;margin-bottom:20px;display:block;
+}
+.whyme-card h3{font-size:1.1rem;font-weight:700;margin-bottom:12px;}
+.whyme-card p{color:var(--muted);font-size:0.9rem;line-height:1.7;}
+#process{padding:100px 48px;}
+.process-steps{
+max-width:800px;margin:0 auto;
+position:relative;
+}
+.process-steps::before{
+content:'';position:absolute;left:28px;top:40px;bottom:40px;
+width:1px;background:linear-gradient(180deg,var(--accent),transparent);
+}
+.process-step{
+display:flex;gap:32px;margin-bottom:48px;align-items:flex-start;
+}
+.step-num{
+width:56px;height:56px;border-radius:50%;flex-shrink:0;
+background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);
+display:flex;align-items:center;justify-content:center;
+font-weight:800;font-size:1.1rem;color:var(--accent);
+position:relative;z-index:1;
+}
+.step-content{padding-top:12px;}
+.step-content h3{font-size:1.1rem;font-weight:700;margin-bottom:8px;}
+.step-content p{color:var(--muted);font-size:0.9rem;line-height:1.7;}
+#testimonials{padding:100px 48px;background:linear-gradient(180deg,transparent,rgba(0,229,255,0.02),transparent);}
+.testimonials-grid{
+display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;
+max-width:1100px;margin:0 auto;
+}
+.testimonial-card{
+background:var(--glass);border:1px solid var(--glass-border);
+border-radius:24px;padding:36px;backdrop-filter:blur(20px);
+transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+}
+.testimonial-card:hover{
+transform:translateY(-4px);
+border-color:rgba(0,229,255,0.3);
+box-shadow:0 16px 48px rgba(0,229,255,0.08);
+}
+.stars{color:var(--accent);font-size:1rem;margin-bottom:20px;letter-spacing:2px;}
+.quote{color:var(--text);font-size:0.95rem;line-height:1.8;margin-bottom:24px;font-style:italic;}
+.author-name{font-weight:700;font-size:0.9rem;}
+.author-role{color:var(--muted);font-size:0.8rem;margin-top:4px;}
+#faq{padding:100px 48px;}
+.faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+.faq-item{
+background:var(--glass);border:1px solid var(--glass-border);
+border-radius:16px;overflow:hidden;backdrop-filter:blur(20px);
+transition:border-color 0.3s;
+}
+.faq-item.open{border-color:rgba(0,229,255,0.3);}
+.faq-q{
+padding:22px 28px;cursor:none;
+display:flex;align-items:center;justify-content:space-between;
+font-weight:600;font-size:0.95rem;
+user-select:none;
+}
+.faq-icon{
+color:var(--accent);font-size:1.2rem;transition:transform 0.3s;font-weight:300;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{
+max-height:0;overflow:hidden;
+transition:max-height 0.4s ease,padding 0.3s ease;
+color:var(--muted);font-size:0.9rem;line-height:1.8;
+padding:0 28px;
+}
+.faq-item.open .faq-a{max-height:300px;padding:0 28px 22px;}
+#cta-section{
+padding:100px 48px;text-align:center;
+background:linear-gradient(135deg,rgba(0,229,255,0.06),rgba(0,184,212,0.04));
+border-top:1px solid var(--glass-border);
+border-bottom:1px solid var(--glass-border);
+}
+#cta-section h2{font-size:clamp(1.8rem,4vw,3.2rem);font-weight:800;letter-spacing:-1px;margin-bottom:20px;}
+#cta-section p{color:var(--muted);max-width:520px;margin:0 auto 40px;font-size:1rem;line-height:1.7;}
+footer{
+padding:40px 48px;
+display:flex;align-items:center;justify-content:space-between;
+border-top:1px solid var(--glass-border);
+flex-wrap:wrap;gap:16px;
+}
+.footer-logo{
+background:linear-gradient(135deg,var(--accent),var(--accent3));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+font-weight:700;font-size:1.1rem;
+}
+.footer-links{display:flex;gap:28px;}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+.footer-links a:hover{color:var(--accent);}
+.footer-copy{color:var(--muted);font-size:0.8rem;}
+.fade-up{
+opacity:1;transform:translateY(0);
+transition:opacity 0.6s ease,transform 0.6s ease;
+}
+.fade-up.hidden{opacity:0;transform:translateY(30px);}
+.text-center{text-align:center;}
+@media(max-width:900px){
+.about-grid{grid-template-columns:1fr;}
+.whyme-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+nav{padding:16px 24px;}
+.nav-links{display:none;}
+.hamburger{display:flex;}
+#hero{padding:100px 24px 60px;}
+#about,#services,#whyme,#process,#testimonials,#faq,#cta-section{padding:70px 24px;}
+footer{padding:32px 24px;flex-direction:column;text-align:center;}
+.footer-links{justify-content:center;}
+.stats-row{gap:28px;padding:24px;}
+}
+</style>
+</head>
+<body>
+
+<footer style="display:none" id="footer-placeholder">
+<span>Anthony</span>
+<a href="mailto:visiory@outlook.com">visiory@outlook.com</a>
+<span>&copy; 2024 Anthony. All rights reserved.</span>
+</footer>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div class="orb" id="orb1"></div>
+<div class="orb" id="orb2"></div>
+<div class="orb" id="orb3"></div>
+
+<nav id="main-nav">
+  <div class="nav-logo">Anthony.</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#faq">FAQ</a>
+    <a href="#cta-section" class="nav-cta">Contact me</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">?</button>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#process" class="mobile-link">Process</a>
+  <a href="#testimonials" class="mobile-link">Testimonials</a>
+  <a href="#faq" class="mobile-link">FAQ</a>
+  <a href="#cta-section" class="mobile-link" style="color:var(--accent)">Contact me</a>
+</div>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div style="position:relative;z-index:1;max-width:900px;">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      Available for new projects
+    </div>
+    <h1 class="hero-headline">
+      Turn Your Business Into a<br>
+      <span class="grad-text">Revenue-Driving Website</span>
+    </h1>
+    <p class="hero-sub">I build fast, professional websites that make your business look credible, attract customers, and work for you 24/7 ? even while you sleep.</p>
+    <div class="hero-btns">
+      <a href="#cta-section" class="btn-primary">Contact me now ?</a>
+      <a href="#services" class="btn-ghost">See what I offer</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">48h</div>
+        <div class="stat-label">Avg Response Time</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3x</div>
+        <div class="stat-label">More Leads Avg</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">?</div>
+        <div class="stat-label">Revisions Until Perfect</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div class="about-stats fade-up hidden">
+      <div class="section-label">About me</div>
+      <div class="about-stat-card">
+        <div class="about-stat-num">Fast</div>
+        <div class="about-stat-desc">Delivery without cutting corners ? your site goes live quickly so you start winning business sooner.</div>
+      </div>
+      <div class="about-stat-card">
+        <div class="about-stat-num">Clean</div>
+        <div class="about-stat-desc">Minimal, modern designs that make your business look professional from the very first click.</div>
+      </div>
+      <div class="about-stat-card">
+        <div class="about-stat-num">Results</div>
+        <div class="about-stat-desc">Every page is built with one goal: turning visitors into paying customers for your business.</div>
+      </div>
+    </div>
+    <div class="about-story fade-up hidden">
+      <h2>I Build Websites That <span class="grad-text">Actually Work</span></h2>
+      <p>Hi, I'm Anthony. I specialise in building websites for businesses that either don't have one yet or are stuck with an outdated site that's costing them customers every single day.</p>
+      <p>Whether you're starting from scratch or need a complete overhaul, I create clean, fast, and conversion-focused websites tailored specifically to your business and your audience.</p>
+      <p>No bloated templates. No cookie-cutter designs. Just a website built around your goals ? one that makes the right impression and brings in real results.</p>
+      <a href="#cta-section" class="btn-primary" style="display:inline-block;margin-top:8px;">Let's work together ?</a>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="text-center fade-up hidden">
+    <div class="section-label">What I offer</div>
+    <h2 class="section-title">Website Services Built for <span class="grad-text">Your Business</span></h2>
+    <p class="section-sub">Every service is designed to get your business online, looking great, and generating real enquiries.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up hidden">
+      <div class="service-icon">?</div>
+      <div class="service-title">Brand New Website</div>
+      <div class="service-desc">You don't have a website yet ? that's costing you customers daily. I'll build you a professional site from the ground up, designed to represent your brand and convert visitors into buyers.</div>
+      <span class="outcome-tag">? Go from invisible to credible online</span>
+    </div>
+    <div class="service-card fade-up hidden">
+      <div class="service-icon">?</div>
+      <div class="service-title">Website Redesign</div>
+      <div class="service-desc">Your current site is outdated, slow, or just not doing the job. I'll redesign it with a clean, modern look and structure optimised to hold attention and drive action.</div>
+      <span class="outcome-tag">? Stop losing leads to a poor first impression</span>
+    </div>
+    <div class="service-card fade-up hidden">
+      <div class="service-icon">?</div>
+      <div class="service-title">Conversion Optimisation</div>
+      <div class="service-desc">Your site gets traffic but no enquiries. I'll restructure your pages, rewrite CTAs, and optimise the layout so more visitors actually contact you or make a purchase.</div>
+      <span class="outcome-tag">? Turn existing traffic into paying customers</span>
+    </div>
+    <div class="service-card fade-up hidden">
+      <div class="service-icon">?</div>
+      <div class="service-title">Mobile-First Build</div>
+      <div class="service-desc">Over 60% of your customers browse on mobile. I build every website to look and perform flawlessly on any screen ? phone, tablet, or desktop ? so you never lose a lead to bad display.</div>
+      <span class="outcome-tag">? Capture every mobile visitor</span>
+    </div>
+    <div class="service-card fade-up hidden">
+      <div class="service-icon">?</div>
+      <div class="service-title">Performance & Speed</div>
+      <div class="service-desc">Slow websites kill conversions. I optimise every site for lightning-fast load times, helping you rank higher in Google and keep visitors engaged long enough to take action.</div>
+      <span class="outcome-tag">? Faster site, better Google ranking</span>
+    </div>
+  </div>
+</section>
+
+<section id="whyme">
+  <div class="text-center fade-up hidden">
+    <div class="section-label">Why Anthony</div>
+    <h2 class="section-title">
